@@ -1,0 +1,111 @@
+:root {
+  color-scheme: dark;
+  font-family: Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --page-max-width: 1120px;
+  --radius-large: 6px;
+  --radius-medium: 4px;
+  --radius-small: 3px;
+  --transition-fast: 150ms ease;
+
+/* Base industrial más clara y cómoda. */
+--page-background: #171d24;
+--page-background-alt: #1d2630;
+
+--surface: #222b35;
+--surface-strong: #27323d;
+--surface-soft: #2c3743;
+
+--task-background: #202933;
+--input-background: #1b232c;
+
+--border-color: #465462;
+
+--text-primary: #f0f4f7;
+--text-secondary: #d2dbe3;
+--text-muted: #9eafbd;
+--steel: #d2dbe3;
+
+--accent: #f0a84b;
+--accent-soft: #ffc36d;
+--accent-dark: #b87520;
+--accent-contrast: #19130b;
+
+  --pressure-neutral: #8493a3;
+  --pressure-fresh: #46c981;
+  --pressure-attention: #d7bd61;
+  --pressure-urgent: #e28b3d;
+  --pressure-critical: #d94f4f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--page-background);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at top right, #17202a 0%, transparent 35%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 42%),
+    var(--page-background);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+::selection {
+  color: var(--accent-contrast);
+  background: var(--accent);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

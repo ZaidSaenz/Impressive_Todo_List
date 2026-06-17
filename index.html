@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17191d">
+  <title>Nuestra Lista</title>
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/tasks.css">
+  <link rel="stylesheet" href="css/themes.css">
+</head>
+<body data-theme="violet">
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar__identity">
+        <p class="topbar__eyebrow">LISTA COMPARTIDA</p>
+        <h1 id="app-name" class="topbar__title">Nuestra Lista</h1>
+        <p id="app-subtitle" class="topbar__subtitle">Pendientes compartidos</p>
+      </div>
+
+      <div class="topbar__actions">
+        <button
+          id="open-settings-button"
+          class="icon-button"
+          type="button"
+          aria-label="Abrir configuración"
+          title="Configuración"
+        >
+          <span aria-hidden="true">⚙</span>
+        </button>
+
+        <button
+          id="open-task-button"
+          class="add-button"
+          type="button"
+          aria-label="Agregar nueva tarea"
+          aria-controls="task-dialog"
+          aria-expanded="false"
+          title="Agregar tarea"
+        >
+          <span aria-hidden="true">+</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="summary-strip" aria-label="Resumen de pendientes">
+        <div>
+          <span class="summary-strip__label">Pendientes</span>
+          <strong id="pending-count" class="summary-strip__value">0</strong>
+        </div>
+        <div>
+          <span class="summary-strip__label">Grupos activos</span>
+          <strong id="group-count" class="summary-strip__value">0</strong>
+        </div>
+        <div>
+          <span class="summary-strip__label">Más antigua</span>
+          <strong id="oldest-task" class="summary-strip__value">—</strong>
+        </div>
+      </section>
+
+      <section id="task-groups" class="task-groups" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <dialog id="task-dialog" class="app-dialog">
+    <form id="task-form" class="task-form" method="dialog" autocomplete="off">
+      <header class="dialog-header">
+        <div>
+          <p class="dialog-header__eyebrow">CAPTURA RÁPIDA</p>
+          <h2>Nueva tarea</h2>
+        </div>
+
+        <button
+          id="close-task-button"
+          class="icon-button icon-button--quiet"
+          type="button"
+          aria-label="Cerrar formulario"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+
+      <div class="form-field form-field--wide">
+        <label for="task-title">¿Qué hay que hacer?</label>
+        <input
+          id="task-title"
+          name="title"
+          type="text"
+          maxlength="180"
+          placeholder="Ej. Acomodar cajones del vanity"
+          required
+        >
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="task-group">Grupo</label>
+          <select id="task-group" name="groupId" required></select>
+        </div>
+
+        <div class="form-field">
+          <label for="task-assignee">Responsable</label>
+          <select id="task-assignee" name="assignedTo" required>
+            <option value="anyone">Cualquiera</option>
+            <option value="me">Yo</option>
+            <option value="partner">Mi pareja</option>
+            <option value="both">Ambos</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="task-date">Fecha <span>opcional</span></label>
+          <input id="task-date" name="dueDate" type="date">
+        </div>
+      </div>
+
+      <details class="form-details">
+        <summary>Agregar instrucciones o detalles</summary>
+
+        <div class="form-field form-field--wide">
+          <label for="task-details">¿Cómo sabremos que está terminada?</label>
+          <textarea
+            id="task-details"
+            name="details"
+            rows="5"
+            maxlength="1000"
+            placeholder="Ej. Limpiar la cajita, acomodar controles, retirar la ropa y guardar los libros."
+          ></textarea>
+          <small id="details-counter">0 / 1000</small>
+        </div>
+      </details>
+
+      <p id="task-form-message" class="form-message" role="status" aria-live="polite"></p>
+
+      <footer class="dialog-actions">
+        <button id="reset-task-button" class="button button--secondary" type="reset">
+          Limpiar
+        </button>
+        <button class="button button--primary" type="submit">
+          Agregar tarea
+        </button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="settings-dialog" class="app-dialog app-dialog--small">
+    <form id="settings-form" class="settings-form" method="dialog">
+      <header class="dialog-header">
+        <div>
+          <p class="dialog-header__eyebrow">PREFERENCIAS LOCALES</p>
+          <h2>Apariencia</h2>
+        </div>
+
+        <button
+          id="close-settings-button"
+          class="icon-button icon-button--quiet"
+          type="button"
+          aria-label="Cerrar configuración"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+
+      <div class="form-field form-field--wide">
+        <label for="identity-select">Nombre de la aplicación</label>
+        <select id="identity-select" name="identity"></select>
+      </div>
+
+      <fieldset class="theme-fieldset">
+        <legend>Paleta</legend>
+        <div id="theme-options" class="theme-options"></div>
+      </fieldset>
+
+      <footer class="dialog-actions">
+        <button class="button button--primary" type="submit">Guardar preferencias</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

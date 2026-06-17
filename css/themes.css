@@ -1,0 +1,46 @@
+/*
+  Todas las paletas comparten la misma base industrial.
+  El tema solo modifica el color de acento para conservar
+  la personalización sin cambiar la estructura visual.
+*/
+body[data-theme="obsidian"] {
+  --accent: #c5d0da;
+  --accent-soft: #e6edf3;
+  --accent-dark: #748392;
+  --accent-contrast: #111820;
+}
+
+body[data-theme="violet"] {
+  --accent: #9b82ef;
+  --accent-soft: #bcaaff;
+  --accent-dark: #654ba8;
+  --accent-contrast: #130f1e;
+}
+
+body[data-theme="ocean"] {
+  --accent: #56a3e8;
+  --accent-soft: #8bc8f7;
+  --accent-dark: #2c6798;
+  --accent-contrast: #09131d;
+}
+
+body[data-theme="forest"] {
+  --accent: #62b083;
+  --accent-soft: #91d0aa;
+  --accent-dark: #39704e;
+  --accent-contrast: #09150e;
+}
+
+body[data-theme="rose"] {
+  --accent: #d6809a;
+  --accent-soft: #efadc0;
+  --accent-dark: #8d4b60;
+  --accent-contrast: #1d0e13;
+}
+
+body[data-theme="amber"] {
+  --accent: #f0a84b;
+  --accent-soft: #ffc36d;
+  --accent-dark: #b87520;
+  --accent-contrast: #19130b;
+}
