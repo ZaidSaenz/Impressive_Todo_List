@@ -1,0 +1,22 @@
+# Configuración local
+.env
+.env.*
+!.env.example
+js/config.local.js
+
+# Dependencias
+node_modules/
+
+# Archivos temporales
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
