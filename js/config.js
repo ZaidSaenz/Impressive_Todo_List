@@ -58,3 +58,16 @@ export const APP_CONFIG = {
     urgentMaxDays: 6
   }
 };
+/* =========================================================
+   CONFIGURACIÓN DE SUPABASE
+
+   La Publishable Key puede utilizarse en el navegador.
+   La seguridad real depende de las políticas RLS.
+   ========================================================= */
+
+export const SUPABASE_CONFIG = {
+  url: "https://knchtbipbtxnpioykjzb.supabase.co",
+
+  publishableKey:
+    "sb_publishable_fCBc8XdzoJcfYOC018lBwQ_ap1MXmCb"
+};

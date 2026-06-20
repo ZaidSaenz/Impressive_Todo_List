@@ -1,0 +1,415 @@
+/* =========================================================
+   PANTALLA DE ACCESO A LISTAS
+
+   Cubre la aplicación hasta que el dispositivo selecciona
+   una lista compartida.
+   ========================================================= */
+
+.list-access-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  min-height: 100vh;
+  padding: 24px;
+
+  /*
+    Mantiene visible una parte del fondo personalizado,
+    pero evita que distraiga durante el acceso.
+  */
+  background:
+    linear-gradient(
+      rgba(12, 17, 23, 0.76),
+      rgba(12, 17, 23, 0.84)
+    );
+
+  overflow-y: auto;
+}
+
+
+/*
+  El atributo hidden debe ocultar completamente
+  cualquiera de los paneles.
+*/
+
+.list-access-screen[hidden],
+.access-form[hidden],
+.list-created-panel[hidden],
+.existing-lists-section[hidden],
+.access-choice-panel[hidden] {
+  display: none;
+}
+
+
+/* =========================================================
+   TARJETA PRINCIPAL
+   ========================================================= */
+
+.list-access-card {
+  width: min(100%, 570px);
+  padding: 30px;
+
+  border: 1px solid var(--border-color);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius-large);
+
+  color: var(--text-primary);
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--surface-strong),
+      var(--surface)
+    );
+
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.56);
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.list-access-header {
+  margin-bottom: 26px;
+  padding-bottom: 22px;
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.list-access-eyebrow,
+.access-section-label {
+  margin: 0 0 10px;
+
+  color: var(--accent);
+
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.list-access-header h1 {
+  margin: 0;
+
+  color: var(--steel);
+
+  font-size: clamp(1.65rem, 5vw, 2.45rem);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+}
+
+.list-access-header > p:last-child {
+  margin: 13px 0 0;
+
+  color: var(--text-muted);
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   BOTONES CREAR / ENTRAR
+   ========================================================= */
+
+.access-choice-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.access-action-card {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  align-items: center;
+  gap: 15px;
+
+  width: 100%;
+  padding: 17px;
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-small);
+
+  color: var(--text-primary);
+  background: var(--task-background);
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.access-action-card:hover {
+  transform: translateY(-1px);
+
+  border-color: var(--accent-dark);
+  background: var(--surface-soft);
+}
+
+.access-action-icon {
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid var(--accent-dark);
+
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.18);
+
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.access-action-card strong,
+.access-action-card small {
+  display: block;
+}
+
+.access-action-card strong {
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.access-action-card small {
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   FORMULARIOS
+   ========================================================= */
+
+.access-form {
+  display: grid;
+  gap: 16px;
+}
+
+.access-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 5px;
+}
+
+.access-form-header h2,
+.list-created-panel h2 {
+  margin: 0;
+
+  color: var(--steel);
+
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.access-back-button {
+  padding: 0;
+
+  border: 0;
+
+  color: var(--text-muted);
+  background: transparent;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.access-back-button:hover {
+  color: var(--accent);
+}
+
+.access-field {
+  display: grid;
+  gap: 8px;
+}
+
+.access-field > span {
+  color: var(--text-secondary);
+
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.access-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-small);
+
+  color: var(--text-primary);
+  background: var(--input-background);
+}
+
+.access-field input:focus {
+  border-color: var(--accent-dark);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.access-submit-button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+
+/* =========================================================
+   LISTAS YA CONOCIDAS
+   ========================================================= */
+
+.existing-lists-section {
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.existing-lists-container {
+  display: grid;
+  gap: 9px;
+}
+
+.existing-list-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  padding: 13px 14px;
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-small);
+
+  color: var(--text-primary);
+  background: var(--task-background);
+
+  cursor: pointer;
+}
+
+.existing-list-button:hover {
+  border-color: var(--accent-dark);
+}
+
+.existing-list-button small {
+  color: var(--text-muted);
+}
+
+
+/* =========================================================
+   LISTA CREADA CORRECTAMENTE
+   ========================================================= */
+
+.list-created-panel {
+  text-align: center;
+}
+
+.list-created-panel > p {
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.list-created-mark {
+  margin: 0 0 15px;
+
+  color: var(--online, #46c981);
+
+  font-size: 2.6rem;
+  font-weight: 800;
+}
+
+.join-code-box {
+  margin: 22px 0;
+  padding: 18px;
+
+  border: 1px dashed var(--accent-dark);
+
+  background: var(--input-background);
+}
+
+.join-code-box span,
+.join-code-box strong {
+  display: block;
+}
+
+.join-code-box span {
+  margin-bottom: 9px;
+
+  color: var(--text-muted);
+
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.join-code-box strong {
+  color: var(--accent);
+
+  font-family: "Courier New", monospace;
+  font-size: 1.65rem;
+  letter-spacing: 0.14em;
+}
+
+
+/* =========================================================
+   MENSAJES
+   ========================================================= */
+
+.list-access-message {
+  min-height: 22px;
+  margin: 18px 0 0;
+
+  color: var(--accent-soft);
+
+  font-size: 0.84rem;
+  text-align: center;
+}
+
+.list-access-message[data-type="error"] {
+  color: #ff8d8d;
+}
+
+.list-access-message[data-type="success"] {
+  color: #75d9a2;
+}
+
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .list-access-screen {
+    align-items: end;
+    padding: 0;
+  }
+
+  .list-access-card {
+    width: 100%;
+    padding:
+      24px
+      18px
+      calc(24px + env(safe-area-inset-bottom));
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+
+    border-radius: 10px 10px 0 0;
+  }
+}

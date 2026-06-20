@@ -1,26 +1,403 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+  <!-- =====================================================
+       CONFIGURACIÓN GENERAL DEL DOCUMENTO
+  ====================================================== -->
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#17191d">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#17191d"
+  >
+
   <title>Nuestra Lista</title>
 
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/tasks.css">
-  <link rel="stylesheet" href="css/themes.css">
+
+  <!-- =====================================================
+       ESTILOS DE LA APLICACIÓN
+  ====================================================== -->
+
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/tasks.css">
+  <link rel="stylesheet" href="./css/themes.css">
+
+  <!-- Pantalla para crear, seleccionar o entrar a una lista -->
+  <link rel="stylesheet" href="./css/access.css">
+
+  <!-- Evita temporalmente el error favicon.ico -->
+  <link rel="icon" href="data:,">
 </head>
+
+
 <body data-theme="violet">
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="topbar__identity">
-        <p class="topbar__eyebrow">LISTA COMPARTIDA</p>
-        <h1 id="app-name" class="topbar__title">Nuestra Lista</h1>
-        <p id="app-subtitle" class="topbar__subtitle">Pendientes compartidos</p>
+
+  <!-- =====================================================
+       PANTALLA DE ACCESO A LISTAS
+
+       Cubre la aplicación mientras:
+       - Se crea una lista.
+       - Se entra a una lista existente.
+       - Se selecciona una lista conocida.
+  ====================================================== -->
+
+  <section
+    id="list-access-screen"
+    class="list-access-screen"
+    aria-labelledby="list-access-title"
+  >
+    <div class="list-access-card">
+
+      <!-- Encabezado de acceso -->
+      <header class="list-access-header">
+        <p class="list-access-eyebrow">
+          Lista compartida
+        </p>
+
+        <h1 id="list-access-title">
+          ¿Dónde están tus pendientes?
+        </h1>
+
+        <p>
+          Crea una lista nueva o entra a una que alguien
+          ya haya compartido contigo.
+        </p>
+      </header>
+
+
+      <!-- =================================================
+           LISTAS VINCULADAS A ESTE DISPOSITIVO
+      ================================================== -->
+
+      <section
+        id="existing-lists-section"
+        class="existing-lists-section"
+        hidden
+      >
+        <p class="access-section-label">
+          Listas de este dispositivo
+        </p>
+
+        <div
+          id="existing-lists-container"
+          class="existing-lists-container"
+        ></div>
+      </section>
+
+
+      <!-- =================================================
+           OPCIONES PRINCIPALES
+      ================================================== -->
+
+      <div
+        id="access-choice-panel"
+        class="access-choice-panel"
+      >
+        <button
+          id="show-create-list"
+          class="access-action-card"
+          type="button"
+        >
+          <span
+            class="access-action-icon"
+            aria-hidden="true"
+          >
+            ＋
+          </span>
+
+          <span>
+            <strong>Crear una nueva lista</strong>
+
+            <small>
+              Genera un espacio compartido desde cero.
+            </small>
+          </span>
+        </button>
+
+
+        <button
+          id="show-join-list"
+          class="access-action-card"
+          type="button"
+        >
+          <span
+            class="access-action-icon"
+            aria-hidden="true"
+          >
+            →
+          </span>
+
+          <span>
+            <strong>Entrar a una lista</strong>
+
+            <small>
+              Usa el código y el secreto compartidos.
+            </small>
+          </span>
+        </button>
       </div>
 
+
+      <!-- =================================================
+           FORMULARIO PARA CREAR UNA LISTA
+      ================================================== -->
+
+      <form
+        id="create-list-form"
+        class="access-form"
+        autocomplete="off"
+        hidden
+      >
+        <div class="access-form-header">
+          <button
+            class="access-back-button"
+            data-access-back
+            type="button"
+          >
+            ← Volver
+          </button>
+
+          <h2>Crear lista</h2>
+        </div>
+
+
+        <label class="access-field">
+          <span>Nombre de la lista</span>
+
+          <input
+            name="listName"
+            type="text"
+            maxlength="60"
+            placeholder="Ej. Casa Zaid"
+            required
+          >
+        </label>
+
+
+        <label class="access-field">
+          <span>Tu nombre</span>
+
+          <input
+            name="displayName"
+            type="text"
+            maxlength="40"
+            placeholder="Ej. Alejandro"
+            required
+          >
+        </label>
+
+
+        <label class="access-field">
+          <span>Código secreto</span>
+
+          <input
+            name="secret"
+            type="password"
+            minlength="8"
+            maxlength="128"
+            autocomplete="new-password"
+            placeholder="Mínimo 8 caracteres"
+            required
+          >
+        </label>
+
+
+        <label class="access-field">
+          <span>Confirmar código secreto</span>
+
+          <input
+            name="secretConfirmation"
+            type="password"
+            minlength="8"
+            maxlength="128"
+            autocomplete="new-password"
+            placeholder="Escríbelo nuevamente"
+            required
+          >
+        </label>
+
+
+        <button
+          class="button button--primary access-submit-button"
+          type="submit"
+        >
+          Crear lista
+        </button>
+      </form>
+
+
+      <!-- =================================================
+           FORMULARIO PARA ENTRAR A UNA LISTA
+      ================================================== -->
+
+      <form
+        id="join-list-form"
+        class="access-form"
+        autocomplete="off"
+        hidden
+      >
+        <div class="access-form-header">
+          <button
+            class="access-back-button"
+            data-access-back
+            type="button"
+          >
+            ← Volver
+          </button>
+
+          <h2>Entrar a una lista</h2>
+        </div>
+
+
+        <label class="access-field">
+          <span>Código de la lista</span>
+
+          <input
+            name="joinCode"
+            type="text"
+            maxlength="20"
+            autocapitalize="characters"
+            placeholder="Ej. 7FA92C"
+            required
+          >
+        </label>
+
+
+        <label class="access-field">
+          <span>Código secreto</span>
+
+          <input
+            name="secret"
+            type="password"
+            maxlength="128"
+            autocomplete="current-password"
+            placeholder="Código secreto compartido"
+            required
+          >
+        </label>
+
+
+        <label class="access-field">
+          <span>Tu nombre</span>
+
+          <input
+            name="displayName"
+            type="text"
+            maxlength="40"
+            placeholder="Ej. Alejandro"
+            required
+          >
+        </label>
+
+
+        <button
+          class="button button--primary access-submit-button"
+          type="submit"
+        >
+          Entrar
+        </button>
+      </form>
+
+
+      <!-- =================================================
+           RESULTADO DESPUÉS DE CREAR UNA LISTA
+      ================================================== -->
+
+      <section
+        id="list-created-panel"
+        class="list-created-panel"
+        hidden
+      >
+        <p
+          class="list-created-mark"
+          aria-hidden="true"
+        >
+          ✓
+        </p>
+
+        <h2>Lista creada</h2>
+
+        <p>
+          Comparte este código con la otra persona.
+          También necesitará conocer el código secreto.
+        </p>
+
+
+        <div class="join-code-box">
+          <span>Código de la lista</span>
+
+          <strong id="created-list-code">
+            ----------
+          </strong>
+        </div>
+
+
+        <button
+          id="continue-to-list"
+          class="button button--primary access-submit-button"
+          type="button"
+        >
+          Abrir la lista
+        </button>
+      </section>
+
+
+      <!-- Mensajes de estado o errores -->
+      <p
+        id="list-access-message"
+        class="list-access-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       APLICACIÓN PRINCIPAL
+  ====================================================== -->
+
+  <div class="app-shell">
+
+    <!-- ===================================================
+         BARRA SUPERIOR
+    ==================================================== -->
+
+    <header class="topbar">
+
+      <div class="topbar__identity">
+        <p class="topbar__eyebrow">
+          LISTA COMPARTIDA
+        </p>
+
+        <h1
+          id="app-name"
+          class="topbar__title"
+        >
+          Nuestra Lista
+        </h1>
+
+        <p
+          id="app-subtitle"
+          class="topbar__subtitle"
+        >
+          Pendientes compartidos
+        </p>
+      </div>
+
+
       <div class="topbar__actions">
+
+        <!-- Abrir configuración -->
         <button
           id="open-settings-button"
           class="icon-button"
@@ -31,6 +408,8 @@
           <span aria-hidden="true">⚙</span>
         </button>
 
+
+        <!-- Crear una tarea -->
         <button
           id="open-task-button"
           class="add-button"
@@ -42,36 +421,101 @@
         >
           <span aria-hidden="true">+</span>
         </button>
+
       </div>
     </header>
 
+
+    <!-- ===================================================
+         CONTENIDO PRINCIPAL
+    ==================================================== -->
+
     <main class="main-content">
-      <section class="summary-strip" aria-label="Resumen de pendientes">
+
+      <!-- Resumen general -->
+      <section
+        class="summary-strip"
+        aria-label="Resumen de pendientes"
+      >
         <div>
-          <span class="summary-strip__label">Pendientes</span>
-          <strong id="pending-count" class="summary-strip__value">0</strong>
+          <span class="summary-strip__label">
+            Pendientes
+          </span>
+
+          <strong
+            id="pending-count"
+            class="summary-strip__value"
+          >
+            0
+          </strong>
         </div>
+
+
         <div>
-          <span class="summary-strip__label">Grupos activos</span>
-          <strong id="group-count" class="summary-strip__value">0</strong>
+          <span class="summary-strip__label">
+            Grupos activos
+          </span>
+
+          <strong
+            id="group-count"
+            class="summary-strip__value"
+          >
+            0
+          </strong>
         </div>
+
+
         <div>
-          <span class="summary-strip__label">Más antigua</span>
-          <strong id="oldest-task" class="summary-strip__value">—</strong>
+          <span class="summary-strip__label">
+            Más antigua
+          </span>
+
+          <strong
+            id="oldest-task"
+            class="summary-strip__value"
+          >
+            —
+          </strong>
         </div>
       </section>
 
-      <section id="task-groups" class="task-groups" aria-live="polite"></section>
+
+      <!-- JavaScript renderiza aquí las tareas -->
+      <section
+        id="task-groups"
+        class="task-groups"
+        aria-live="polite"
+      ></section>
+
     </main>
   </div>
 
-  <dialog id="task-dialog" class="app-dialog">
-    <form id="task-form" class="task-form" method="dialog" autocomplete="off">
+
+  <!-- =====================================================
+       DIÁLOGO PARA CREAR UNA TAREA
+  ====================================================== -->
+
+  <dialog
+    id="task-dialog"
+    class="app-dialog"
+  >
+    <form
+      id="task-form"
+      class="task-form"
+      method="dialog"
+      autocomplete="off"
+    >
+
+      <!-- Encabezado -->
       <header class="dialog-header">
         <div>
-          <p class="dialog-header__eyebrow">CAPTURA RÁPIDA</p>
+          <p class="dialog-header__eyebrow">
+            CAPTURA RÁPIDA
+          </p>
+
           <h2>Nueva tarea</h2>
         </div>
+
 
         <button
           id="close-task-button"
@@ -83,8 +527,13 @@
         </button>
       </header>
 
+
+      <!-- Título -->
       <div class="form-field form-field--wide">
-        <label for="task-title">¿Qué hay que hacer?</label>
+        <label for="task-title">
+          ¿Qué hay que hacer?
+        </label>
+
         <input
           id="task-title"
           name="title"
@@ -95,64 +544,148 @@
         >
       </div>
 
+
+      <!-- Grupo, responsable y fecha -->
       <div class="form-grid">
-        <div class="form-field">
-          <label for="task-group">Grupo</label>
-          <select id="task-group" name="groupId" required></select>
-        </div>
 
         <div class="form-field">
-          <label for="task-assignee">Responsable</label>
-          <select id="task-assignee" name="assignedTo" required>
-            <option value="anyone">Cualquiera</option>
-            <option value="me">Yo</option>
-            <option value="partner">Mi pareja</option>
-            <option value="both">Ambos</option>
+          <label for="task-group">
+            Grupo
+          </label>
+
+          <select
+            id="task-group"
+            name="groupId"
+            required
+          ></select>
+        </div>
+
+
+        <div class="form-field">
+          <label for="task-assignee">
+            Responsable
+          </label>
+
+          <select
+            id="task-assignee"
+            name="assignedTo"
+            required
+          >
+            <option value="anyone">
+              Cualquiera
+            </option>
+
+            <option value="me">
+              Yo
+            </option>
+
+            <option value="partner">
+              Mi pareja
+            </option>
+
+            <option value="both">
+              Ambos
+            </option>
           </select>
         </div>
 
+
         <div class="form-field">
-          <label for="task-date">Fecha <span>opcional</span></label>
-          <input id="task-date" name="dueDate" type="date">
+          <label for="task-date">
+            Fecha <span>opcional</span>
+          </label>
+
+          <input
+            id="task-date"
+            name="dueDate"
+            type="date"
+          >
         </div>
+
       </div>
 
+
+      <!-- Detalles opcionales -->
       <details class="form-details">
-        <summary>Agregar instrucciones o detalles</summary>
+        <summary>
+          Agregar instrucciones o detalles
+        </summary>
 
         <div class="form-field form-field--wide">
-          <label for="task-details">¿Cómo sabremos que está terminada?</label>
+          <label for="task-details">
+            ¿Cómo sabremos que está terminada?
+          </label>
+
           <textarea
             id="task-details"
             name="details"
             rows="5"
             maxlength="1000"
-            placeholder="Ej. Limpiar la cajita, acomodar controles, retirar la ropa y guardar los libros."
+            placeholder="Ej. Limpiar, acomodar y retirar lo que ya no se utiliza."
           ></textarea>
-          <small id="details-counter">0 / 1000</small>
+
+          <small id="details-counter">
+            0 / 1000
+          </small>
         </div>
       </details>
 
-      <p id="task-form-message" class="form-message" role="status" aria-live="polite"></p>
 
+      <!-- Mensajes -->
+      <p
+        id="task-form-message"
+        class="form-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+
+      <!-- Acciones -->
       <footer class="dialog-actions">
-        <button id="reset-task-button" class="button button--secondary" type="reset">
+        <button
+          id="reset-task-button"
+          class="button button--secondary"
+          type="reset"
+        >
           Limpiar
         </button>
-        <button class="button button--primary" type="submit">
+
+        <button
+          class="button button--primary"
+          type="submit"
+        >
           Agregar tarea
         </button>
       </footer>
+
     </form>
   </dialog>
 
-  <dialog id="settings-dialog" class="app-dialog app-dialog--small">
-    <form id="settings-form" class="settings-form" method="dialog">
+
+  <!-- =====================================================
+       DIÁLOGO DE CONFIGURACIÓN
+  ====================================================== -->
+
+  <dialog
+    id="settings-dialog"
+    class="app-dialog app-dialog--small"
+  >
+    <form
+      id="settings-form"
+      class="settings-form"
+      method="dialog"
+    >
+
+      <!-- Encabezado -->
       <header class="dialog-header">
         <div>
-          <p class="dialog-header__eyebrow">PREFERENCIAS LOCALES</p>
-          <h2>Apariencia</h2>
+          <p class="dialog-header__eyebrow">
+            PREFERENCIAS LOCALES
+          </p>
+
+          <h2>Configuración</h2>
         </div>
+
 
         <button
           id="close-settings-button"
@@ -164,22 +697,92 @@
         </button>
       </header>
 
-      <div class="form-field form-field--wide">
-        <label for="identity-select">Nombre de la aplicación</label>
-        <select id="identity-select" name="identity"></select>
-      </div>
 
-      <fieldset class="theme-fieldset">
-        <legend>Paleta</legend>
-        <div id="theme-options" class="theme-options"></div>
-      </fieldset>
+      <!-- =================================================
+           APARIENCIA
+      ================================================== -->
 
+      <section class="settings-section">
+        <h3>Apariencia</h3>
+
+        <div class="form-field form-field--wide">
+          <label for="identity-select">
+            Nombre de la aplicación
+          </label>
+
+          <select
+            id="identity-select"
+            name="identity"
+          ></select>
+        </div>
+
+
+        <fieldset class="theme-fieldset">
+          <legend>Paleta</legend>
+
+          <div
+            id="theme-options"
+            class="theme-options"
+          ></div>
+        </fieldset>
+      </section>
+
+
+      <!-- =================================================
+           LISTA ACTIVA
+      ================================================== -->
+
+      <section class="settings-section">
+        <h3>Lista activa</h3>
+
+        <p class="settings-current-list">
+          Actualmente estás en:
+
+          <strong id="settings-household-name">
+            Sin lista seleccionada
+          </strong>
+        </p>
+
+
+        <button
+          id="change-list-button"
+          class="button button--secondary"
+          type="button"
+        >
+          Cambiar de lista
+        </button>
+      </section>
+
+
+      <!-- Guardar preferencias -->
       <footer class="dialog-actions">
-        <button class="button button--primary" type="submit">Guardar preferencias</button>
+        <button
+          class="button button--primary"
+          type="submit"
+        >
+          Guardar preferencias
+        </button>
       </footer>
+
     </form>
   </dialog>
 
-  <script type="module" src="js/app.js"></script>
+
+  <!-- =====================================================
+       LIBRERÍAS Y JAVASCRIPT
+  ====================================================== -->
+
+  <!-- Cliente oficial de Supabase -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <!-- Aplicación principal -->
+  <script
+    type="module"
+    src="./js/app.js"
+  ></script>
+
 </body>
+
 </html>

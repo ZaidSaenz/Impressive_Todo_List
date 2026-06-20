@@ -50,14 +50,40 @@ html {
 }
 
 body {
-  min-width: 320px;
-  min-height: 100vh;
   margin: 0;
+  min-height: 100vh;
+
+  /*
+    Capa oscura semitransparente sobre la imagen.
+    Ayuda a que los paneles y textos sigan siendo legibles.
+  */
+  background-image:
+    linear-gradient(
+      rgba(13, 17, 23, 0.55),
+      rgba(13, 17, 23, 0.55)
+    ),
+    url("../assets/fondo_reemplazable.png");
+
+  /* La imagen cubre toda la pantalla */
+  background-size: cover;
+
+  /* Mantiene la imagen centrada */
+  background-position: center;
+
+  /* Evita que se repita */
+  background-repeat: no-repeat;
+
+  /* Mantiene el fondo fijo mientras bajas por la lista */
+  background-attachment: fixed;
+
   color: var(--text-primary);
-  background:
-    radial-gradient(circle at top right, #17202a 0%, transparent 35%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 42%),
-    var(--page-background);
+
+  font-family:
+    "Segoe UI Variable",
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
 }
 
 button,
