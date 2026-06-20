@@ -391,25 +391,61 @@
 
 /* =========================================================
    CELULAR
+
+   La tarjeta comienza cerca de la parte superior y permite
+   desplazamiento cuando el formulario supera la pantalla.
    ========================================================= */
 
 @media (max-width: 600px) {
   .list-access-screen {
-    align-items: end;
-    padding: 0;
+    /*
+      Usa la altura visible real del navegador móvil.
+    */
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    /*
+      Evita que la tarjeta quede pegada abajo.
+    */
+    align-items: start;
+    justify-items: center;
+
+    padding:
+      max(14px, env(safe-area-inset-top))
+      0
+      max(18px, env(safe-area-inset-bottom));
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .list-access-card {
     width: 100%;
+    max-width: 100%;
+
+    margin: 0 auto;
+
     padding:
-      24px
+      22px
       18px
       calc(24px + env(safe-area-inset-bottom));
 
     border-right: 0;
-    border-bottom: 0;
     border-left: 0;
 
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
+  }
+
+  .list-access-header {
+    margin-bottom: 20px;
+    padding-bottom: 17px;
+  }
+
+  .list-access-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .access-action-card {
+    padding: 14px;
   }
 }
