@@ -35,7 +35,7 @@ export const APP_CONFIG = {
     { id: "violet", name: "Violeta", swatch: "#8b6ff0" },
     { id: "ocean", name: "Océano", swatch: "#4a91d9" },
     { id: "forest", name: "Bosque", swatch: "#5e9b77" },
-    { id: "rose", name: "Rosa ceniza", swatch: "#c97891" },
+    { id: "rose", name: "Rosa", swatch: "#c97891" },
     { id: "amber", name: "Ámbar", swatch: "#c98b43" }
   ],
 

@@ -348,25 +348,48 @@ function initializeSettings() {
   );
 
   /*
-    Cambiar de lista.
-  */
+  Cambiar de lista.
+*/
 
-  if (changeListButton) {
-    changeListButton.addEventListener(
-      "click",
-      () => {
+if (!changeListButton) {
+  console.error(
+    "No se encontró #change-list-button en index.html."
+  );
+} else {
+  changeListButton.addEventListener(
+    "click",
+    async event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      console.log(
+        "Botón Cambiar de lista pulsado."
+      );
+
+      if (dialog.open) {
         dialog.close();
-
-        void openHouseholdSwitcher()
-          .catch(error => {
-            console.error(
-              "No se pudo abrir el selector de listas:",
-              error
-            );
-          });
       }
-    );
-  }
+
+      try {
+        await openHouseholdSwitcher();
+
+        console.log(
+          "Selector de listas abierto."
+        );
+      } catch (error) {
+        console.error(
+          "No se pudo abrir el selector de listas:",
+          error
+        );
+
+        window.alert(
+          error.message ||
+          "No se pudo abrir el selector de listas."
+        );
+      }
+    }
+  );
+}
 
   /*
     Cerrar al pulsar fuera del diálogo.

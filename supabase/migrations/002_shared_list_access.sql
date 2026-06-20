@@ -299,11 +299,7 @@ begin
         auth.uid(),
         'member'
     )
-    on conflict (
-        household_id,
-        user_id
-    )
-    do nothing;
+    on conflict do nothing;
 
 
     return query

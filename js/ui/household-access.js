@@ -28,6 +28,7 @@ import {
 
 let pendingCreatedHousehold = null;
 
+let householdAccessEventsBound = false;
 
 /* =========================================================
    AYUDANTES
@@ -325,12 +326,123 @@ async function handleJoinList(event) {
   }
 }
 
+/* =========================================================
+   CONECTAR EVENTOS DE LA PANTALLA DE ACCESO
 
+   Se ejecuta una sola vez, aunque el selector se abra
+   varias veces desde Configuración.
+   ========================================================= */
+
+function bindHouseholdAccessEvents() {
+  if (householdAccessEventsBound) {
+    return;
+  }
+
+  householdAccessEventsBound = true;
+
+
+  /* Mostrar formulario para crear una lista */
+
+  getRequiredElement(
+    "#show-create-list"
+  ).addEventListener(
+    "click",
+    () => {
+      showAccessView("create");
+
+      document.querySelector(
+        '#create-list-form input[name="listName"]'
+      )?.focus();
+    }
+  );
+
+
+  /* Mostrar formulario para entrar a una lista */
+
+  getRequiredElement(
+    "#show-join-list"
+  ).addEventListener(
+    "click",
+    () => {
+      showAccessView("join");
+
+      document.querySelector(
+        '#join-list-form input[name="joinCode"]'
+      )?.focus();
+    }
+  );
+
+
+  /* Botones Volver */
+
+  document
+    .querySelectorAll("[data-access-back]")
+    .forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
+          showAccessView("choice");
+        }
+      );
+    });
+
+
+  /* Crear una lista */
+
+  getRequiredElement(
+    "#create-list-form"
+  ).addEventListener(
+    "submit",
+    handleCreateList
+  );
+
+
+  /* Entrar a una lista */
+
+  getRequiredElement(
+    "#join-list-form"
+  ).addEventListener(
+    "submit",
+    handleJoinList
+  );
+
+
+  /* Abrir la lista recién creada */
+
+  getRequiredElement(
+    "#continue-to-list"
+  ).addEventListener(
+    "click",
+    () => {
+      if (!pendingCreatedHousehold) {
+        setMessage(
+          "No se encontró la lista recién creada.",
+          "error"
+        );
+
+        return;
+      }
+
+      activateHousehold(
+        pendingCreatedHousehold
+      );
+
+      pendingCreatedHousehold = null;
+    }
+  );
+}
 /* =========================================================
    INICIALIZACIÓN
    ========================================================= */
 
 export async function initializeHouseholdAccess() {
+  /*
+    Conecta los botones y formularios una sola vez,
+    antes de cualquier posible return.
+  */
+
+  bindHouseholdAccessEvents();
+
   const accessScreen =
     getRequiredElement("#list-access-screen");
 
@@ -338,8 +450,8 @@ export async function initializeHouseholdAccess() {
     document.querySelector(".app-shell");
 
   /*
-    Evita que se pueda interactuar con la lista de fondo
-    mientras se determina qué lista debe abrirse.
+    Evita interactuar con la aplicación mientras
+    se determina qué lista debe abrirse.
   */
 
   accessScreen.hidden = false;
@@ -360,8 +472,8 @@ export async function initializeHouseholdAccess() {
 
 
   /*
-    Si la lista almacenada todavía pertenece al usuario,
-    se abre automáticamente.
+    Si la lista guardada todavía pertenece
+    al usuario, se abre automáticamente.
   */
 
   if (storedHousehold) {
@@ -372,116 +484,64 @@ export async function initializeHouseholdAccess() {
       );
 
     if (validStoredHousehold) {
-      activateHousehold(validStoredHousehold);
+      activateHousehold(
+        validStoredHousehold
+      );
+
       return validStoredHousehold;
     }
   }
 
 
   /*
-    Si el dispositivo solo tiene una lista vinculada,
-    también puede abrirse automáticamente.
+    Si el dispositivo solamente tiene una lista,
+    también se abre automáticamente.
   */
 
   if (households.length === 1) {
-    activateHousehold(households[0]);
+    activateHousehold(
+      households[0]
+    );
+
     return households[0];
   }
 
 
   /*
-    Con cero listas se muestran las opciones de creación.
-    Con varias listas se muestran además los accesos rápidos.
+    Con cero listas muestra las opciones principales.
+
+    Con varias listas muestra además los accesos
+    rápidos para seleccionarlas.
   */
 
-  renderExistingHouseholds(households);
+  renderExistingHouseholds(
+    households
+  );
+
   showAccessView("choice");
-
-
-  /* Botones principales. */
-
-  getRequiredElement(
-    "#show-create-list"
-  ).addEventListener("click", () => {
-    showAccessView("create");
-
-    document.querySelector(
-      '#create-list-form input[name="listName"]'
-    )?.focus();
-  });
-
-  getRequiredElement(
-    "#show-join-list"
-  ).addEventListener("click", () => {
-    showAccessView("join");
-
-    document.querySelector(
-      '#join-list-form input[name="joinCode"]'
-    )?.focus();
-  });
-
-
-  /* Botones Volver. */
-
-  document
-    .querySelectorAll("[data-access-back]")
-    .forEach(button => {
-      button.addEventListener("click", () => {
-        showAccessView("choice");
-      });
-    });
-
-
-  /* Formularios. */
-
-  getRequiredElement(
-    "#create-list-form"
-  ).addEventListener(
-    "submit",
-    handleCreateList
-  );
-
-  getRequiredElement(
-    "#join-list-form"
-  ).addEventListener(
-    "submit",
-    handleJoinList
-  );
-
-
-  /* Continuar después de crear. */
-
-  getRequiredElement(
-    "#continue-to-list"
-  ).addEventListener("click", () => {
-    if (!pendingCreatedHousehold) {
-      setMessage(
-        "No se encontró la lista recién creada.",
-        "error"
-      );
-
-      return;
-    }
-
-    activateHousehold(
-      pendingCreatedHousehold
-    );
-
-    pendingCreatedHousehold = null;
-  });
 
   return null;
 }
+
+
 /* =========================================================
    ABRIR SELECTOR DE LISTAS
 
-   Permite mostrar nuevamente la pantalla de acceso para:
+   Permite mostrar nuevamente la pantalla para:
    - Seleccionar otra lista.
-   - Crear una lista nueva.
+   - Crear una nueva lista.
    - Entrar a una lista existente.
    ========================================================= */
 
 export async function openHouseholdSwitcher() {
+  /*
+    Normalmente los eventos ya estarán conectados,
+    pero esta llamada es segura porque la función
+    evita registrarlos dos veces.
+  */
+
+  bindHouseholdAccessEvents();
+
   const accessScreen =
     getRequiredElement("#list-access-screen");
 
@@ -490,7 +550,7 @@ export async function openHouseholdSwitcher() {
 
   /*
     Mostrar la pantalla de selección
-    y bloquear temporalmente la aplicación.
+    y bloquear la aplicación de fondo.
   */
 
   accessScreen.hidden = false;
@@ -502,27 +562,15 @@ export async function openHouseholdSwitcher() {
   setMessage("Cargando tus listas…");
 
   try {
-    /*
-      Confirmar que el dispositivo mantiene
-      una sesión anónima válida.
-    */
-
     await ensureAnonymousSession();
-
-    /*
-      Consultar las listas vinculadas
-      al usuario de este navegador.
-    */
 
     const households =
       await listMyHouseholds();
 
-    /*
-      Mostrar las listas disponibles
-      y las opciones para crear o entrar.
-    */
+    renderExistingHouseholds(
+      households
+    );
 
-    renderExistingHouseholds(households);
     showAccessView("choice");
 
     return households;
